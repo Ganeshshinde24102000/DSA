@@ -1,0 +1,87 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 5
+int arr[MAX];
+int top=-1;
+
+void push() 
+{
+        int item;
+        if(top==MAX-1)
+        {
+            printf("OVERFLOW \n");
+        }
+        else
+        {
+            printf("enter the no. to push \n");
+            scanf("%d",&item);
+            top=top+1;
+            arr[top]=item;
+        }
+    }
+
+void pop()
+{
+    int item;
+        if(top==-1)
+        {
+            printf("UNDERFLOW \n");
+        
+        }
+        else
+        {
+            item=arr[top];
+            top=top-1;
+            printf("%d element is deleted from stack \n",item);
+        }
+
+    }
+void display()
+{
+    int i;
+    if(top==-1) 
+    {
+        printf("STACK IS UNDERFLOW \n");
+    }
+    else
+    {
+        printf("stack elements are :\n");
+        for ( i=top; i>=0; i--)
+        {
+           printf(" %d \n",arr[i]);
+        }
+        
+    }
+}
+
+int main(){
+    int ch;
+    do
+    {
+        printf("\n1: push \n2:pop \n3:display \n4:exit\n");
+        printf("Enter your choice \n");
+        scanf("%d",&ch);
+        
+        switch (ch)
+        {
+        case 1: push();
+            break;
+
+        case 2: pop();
+        break;
+
+        case 3: display();
+        break; 
+
+        case 4:
+        exit(0);
+        break;   
+        
+        default:
+            printf("Enter correct choice ");
+        }
+        
+    } while (ch!=4);
+    
+    return 0;
+}
