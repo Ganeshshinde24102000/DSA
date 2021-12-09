@@ -1,0 +1,132 @@
+#include<stdio.h>
+#include<string.h>
+char oprt[15]={'\0'};
+char out[15]={'\0'};
+int topoprt=-1;
+int topout=-1;
+char ch;
+int getpriority(char element)
+{
+    switch(element)
+    {
+        case '^':
+        return 3;
+        case '*':
+        case '/':
+        return 2;
+        case '+':
+        case '-':
+        return 1;
+    }
+    return -1;
+}
+void pushoprt(char element)
+{
+ if(topoprt==15)
+ printf("stack operator is full \n");
+ else
+ {
+ topoprt++;
+ oprt[topoprt]=element;
+ }
+}
+
+char popoprt()
+{
+    if(topoprt !=-1)
+    {
+        ch=oprt[topoprt];
+        topoprt--;
+    }
+    return ch;
+}
+
+char peepoprt()
+{
+    if(topoprt != -1)
+    ch=oprt[topoprt];
+    return ch;
+}
+
+void displayoprt()
+{
+    int i;
+    printf("\n opratator stack =");
+    for(i=0;i<=topoprt;i++)
+    printf(" %c ",oprt[i]);
+}
+
+void pushout(char element)
+{
+  if(topout==15)
+   printf("output stack operator is full \n");
+  else
+ {
+  topout++;
+  out[topout]=element;
+ }  
+}
+
+void displayout()
+{
+    int i;
+    printf("\n output stack =");
+    for(i=0;i<=topout;i++)
+    printf(" %c ",out[i]);
+}
+int main()
+{
+    char infix[15]={'\0'},element,popelement;
+    int i=0;
+    printf("\n input infix opration:-");
+    scanf("%s",infix);
+    printf("\n infix expression =%s",infix);
+    while(infix[i]!='\0')
+    {
+        element=infix[i];
+        if(element=='(')
+        {
+          pushoprt(element);
+        }
+        else if(element==')')
+        {
+          while(peepoprt()!='(')
+          {
+           pushout(popelement);
+           popelement=popoprt();
+         
+          }
+          popoprt();
+
+        }
+        else if(element=='^' || element=='*' || element=='/' ||element=='+' || element=='-')
+        {
+         if(topoprt>=0)
+         {
+             while(getpriority(peepoprt())>=getpriority(element) && topoprt!=-1)
+            {
+              popelement=popoprt();
+              pushout(popelement);
+            }
+         }
+         pushoprt(element);
+        }
+        else
+        {
+          pushout(element);
+        }
+        displayoprt();
+        displayout();
+        i++;
+    }
+    if(topoprt!=-1)
+    {
+        while(topoprt!=-1)
+        {
+         popelement=popoprt();
+         pushout(popelement);
+        }
+    }
+    printf("\n postfix expression= %s",out);
+    return 0;
+}
